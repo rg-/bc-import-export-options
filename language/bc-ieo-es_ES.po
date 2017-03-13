@@ -1,0 +1,197 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: bc-ieo\n"
+"POT-Creation-Date: 2017-02-13 11:57-0300\n"
+"PO-Revision-Date: 2017-02-13 11:57-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e;_x;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../bc-import-export-options.php:76 ../bc-import-export-options.php:164
+msgid "Import & Export Options"
+msgstr "Importar & Exportar Opciones"
+
+#: ../bc-import-export-options.php:125
+msgid "About this tool"
+msgstr "Acerca de esta herramienta"
+
+#: ../bc-import-export-options.php:127
+msgid "Plugin version: "
+msgstr "Versión del plugin: "
+
+#: ../bc-import-export-options.php:128
+msgid ""
+"This plugins is under development, if you find bugs, problems, doubts, "
+"anything, just contact me here: roberto@rgdesign.org."
+msgstr ""
+"Este plugin está bajo desarrollo, si encuentras algún fallo, problema, "
+"dudas, lo que sea, solo contacta aquí: roberto@rgdesign.org."
+
+#: ../bc-import-export-options.php:129
+msgid "Thanks :)!"
+msgstr "Gracias :)!"
+
+#: ../bc-import-export-options.php:134
+msgid "Quick links"
+msgstr "Enlaces rápidos"
+
+#: ../bc-import-export-options.php:137
+msgid "Back to Main page"
+msgstr "Volver a la pagina principal"
+
+#: ../bc-import-export-options.php:139
+msgid "Export All Options"
+msgstr "Exportar todas las opciones"
+
+#: ../bc-import-export-options.php:141
+msgid "Export ACF Options"
+msgstr "Exportar opciones ACF"
+
+#: ../bc-import-export-options.php:144 ../bc-import-export-options.php:167
+#: ../bc-import-export-options.php:397
+msgid "Import Options"
+msgstr "Importar Opciones"
+
+#: ../bc-import-export-options.php:166 ../bc-import-export-options.php:224
+msgid "Export Options"
+msgstr "Exportar Opciones"
+
+#: ../bc-import-export-options.php:178
+msgid ""
+"This tool Exports <b>ONLY OPTIONS</b> from the 'options' database table."
+msgstr ""
+"Esta herramienta exporta <b>SOLO OPCIONES</b> de la tabla 'options' de la "
+"base de datos."
+
+#: ../bc-import-export-options.php:185
+msgid "Export"
+msgstr "Exportar"
+
+#: ../bc-import-export-options.php:187
+msgid ""
+"You can choose to export all options, select by plugin (ex: only ACF "
+"options, only Woocommerce options), or select just the ones you need. A JSON "
+"file will be created with those options and their values."
+msgstr ""
+"Puedes elegir exportar todas las opciones, seleccionar por plugin (ej: solo "
+"opciones de ACF, solo de Woocommerce), o seleccionar las que quieras. Un "
+"archivo JSON será creado con esas opciones y sus valores."
+
+#: ../bc-import-export-options.php:188
+msgid "Export ALL Options"
+msgstr "Exportar todas las opciones"
+
+#: ../bc-import-export-options.php:189
+msgid "Export <b>ACF</b> Options Only"
+msgstr "Exportar opciones <b>ACF</b> solamente"
+
+#: ../bc-import-export-options.php:195 ../bc-import-export-options.php:405
+msgid "Import"
+msgstr "Importar"
+
+#: ../bc-import-export-options.php:197
+msgid ""
+"Take the JSON file and Import (using this tool) into another WP install. You "
+"can also use this as a backup for those options, or as an options starter "
+"for some particular options you choose. You can even edit the JSON file to "
+"quickly import (and update) some, or all, options already created"
+msgstr ""
+"Toma el archivo JSON generado e importalo (usando esta herramienta) en otra "
+"instalación de WP. Puedes también usar esto como un backup para esas "
+"opciones, o como un archivo para empezar otro proyecto con esas opciones. "
+"Puedes incluso editar el archivo JSON para rapidamente hacer un import y "
+"actualizar las opciones o crearlas si no existen."
+
+#: ../bc-import-export-options.php:198
+msgid "Go to the Import Options Page"
+msgstr "Ir a la pagina de Importar Opciones"
+
+#: ../bc-import-export-options.php:226
+msgid ""
+"A JSON file will be created with all the option names and values saved for "
+"this setup, this options do NOT include post, post types, pages, menus, "
+"widgets, comments and so on."
+msgstr ""
+"Un archivo JSON será creado con todas las opciones, nombres y valores, "
+"guardadas en esta instalacion, estas opcines NO incluyen contenido de posts, "
+"post types, pages, menus, widgets, comments, etc."
+
+#: ../bc-import-export-options.php:227
+msgid ""
+"This export file is only intended to use with the Import Options feature "
+"also provided."
+msgstr ""
+"Este archivo de exportación esta pensado solo para ser usado con la "
+"herramienta de Importar del plugin."
+
+#: ../bc-import-export-options.php:228
+msgid ""
+"You can choose which options to export and then import on some other setup, "
+"ex, moving from dev to production or cloning some configuration to another "
+"setup."
+msgstr ""
+"Puedes seleccionar que opciones exportar y luego importarlas en otra "
+"instalación, por ej. migrar un sitio en desarrollo a producción, o clonar "
+"las configuraciones guardadas en las opciones a otra instalación."
+
+#: ../bc-import-export-options.php:230
+msgid "Select All"
+msgstr "Seleccionar Todo"
+
+#: ../bc-import-export-options.php:230
+msgid "Unselect All"
+msgstr "Deseleccionar Todo"
+
+#: ../bc-import-export-options.php:230
+msgid "Show unselected"
+msgstr "Mostrar no seleccionados"
+
+#: ../bc-import-export-options.php:230
+msgid "Hidde unselected"
+msgstr "Ocultar no seleccionados"
+
+#: ../bc-import-export-options.php:267
+msgid "Export selected options"
+msgstr "Exportar opciones seleccionadas"
+
+#: ../bc-import-export-options.php:322
+msgid "Something went wrong :(."
+msgstr "Algo no ha marchado bien :(."
+
+#: ../bc-import-export-options.php:339
+msgid "All options where created/updated."
+msgstr "Todas las opciones han sido creadas/actualizadas."
+
+#: ../bc-import-export-options.php:344
+msgid "Invalid file or file size too big."
+msgstr "Archivo no válido o demasiado grande."
+
+#: ../bc-import-export-options.php:361
+msgid "This is the list for all options keys and values imported."
+msgstr "Esta es la lista de todas las opciones y sus valores importados."
+
+#: ../bc-import-export-options.php:371
+msgid "Import Again?"
+msgstr "¿Importar de nuevo?"
+
+#: ../bc-import-export-options.php:378
+msgid "Try Again"
+msgstr "Prueba de nuevo"
+
+#: ../bc-import-export-options.php:399
+msgid "Click Browse button and choose a json file that you backup before."
+msgstr ""
+"Clickea en Seleccionar archivo y elige un archivo JSON previamente exportado "
+"con este plugin."
+
+#: ../bc-import-export-options.php:400
+msgid "Press Import button, Wordpress do the rest for you."
+msgstr "Clickea el boton de Importar, Wordpress se encargará del resto."

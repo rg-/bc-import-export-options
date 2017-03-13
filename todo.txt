@@ -1,0 +1,3 @@
+select * from $wpdb->options where option_name like 'abcd_%'
+
+https://developer.wordpress.org/reference/functions/wp_load_alloptions/
