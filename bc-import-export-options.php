@@ -2,7 +2,7 @@
 
 /*
  * Plugin Name: BC Import Export Options
- * Version: 1.0.0
+ * Version: 1.0.1
  * Plugin URI: http://rgdesign.org
  * Description: Export & Import options only for Wordpress, ACF, Woocommerce and so on compatible.
  * Author: Roberto Garc&iacute;a
@@ -15,7 +15,8 @@
  *
  * @package WordPress
  * @author Roberto García
- * @since 1.0.0
+ * @since 1.0.1 - New wat to obtain all ACF option list
+ * @since 1.0.0 - Created
  */
 
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -64,6 +65,15 @@ function bc_get_all_acf_options(){
 			$options_select_merge[$key_merge] = $value_marge;
 		} 
 			$val_count++;
+	}
+	// return $options_select_merge;
+	global $wpdb; 
+	$results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}options WHERE option_name like 'option_%'", OBJECT );
+	if(!empty($results)){
+		foreach ($results as $key => $value) {
+			//echo $value->option_name.'-'.$value->option_value.'<br>';
+			$options_select_merge[$value->option_name] = $value->option_value;
+		}
 	}
 	return $options_select_merge;
 }
@@ -115,7 +125,7 @@ function bc_i_e_page_wrapper_fx($where='start',$args=null){
 add_action('bc_i_e_page_wrapper','bc_i_e_page_wrapper_fx',10,2); 
 
 function bc_i_e_page_wrapper_aside_fx(){
-	global $ieo_urls;
+	global $ieo_urls; 
 	?>
 	
 	<div id="postbox-container-1" class="postbox-container">
@@ -177,8 +187,7 @@ function bc_import_export_options_page(){
 	$args['class'] = 'notice-info';
 	$args['content'] = '<p>'.__("This tool Exports <b>ONLY OPTIONS</b> from the 'options' database table.","bc-ieo").'</p>';
 	
-	do_action('bc_i_e_page_wrapper','start',$args);
-	
+	do_action('bc_i_e_page_wrapper','start',$args); 
 	?> 
 	
 		<div class="postbox">
