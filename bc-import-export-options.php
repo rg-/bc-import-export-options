@@ -21,7 +21,7 @@
 
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-define('BCIEO_VERSION', '1.0.0' );
+define('BCIEO_VERSION', '1.0.1' );
 define('BCIEO_BASENAME', dirname( plugin_basename(__FILE__) ));
 
 add_action('plugins_loaded', 'acfgfs_load_textdomain'); 
@@ -34,6 +34,7 @@ $ieo_urls = array();
 $ieo_urls['main'] = 'admin.php?page=bc-import-export-options';
 $ieo_urls['export'] = 'admin.php?page=bc-export-options';
 $ieo_urls['export-acf'] = 'admin.php?page=bc-export-options&select=acf';
+$ieo_urls['export-custom'] = 'admin.php?page=bc-export-options';
 $ieo_urls['import'] = 'admin.php?page=bc-import-options';
 
 $acf_enabled = false;
@@ -46,29 +47,55 @@ define('BCIEO_ACF', $acf_enabled);
 
 function bc_get_all_acf_options(){ 
 	$options_select_merge = array();
-	$options_objects = get_field_objects('options');
-	foreach($options_objects as $k=>$v){ 
-		$val_count = 0;
-		if(is_array($v['value'])){ 
-			$values = $v['value'][0];
-			
-			foreach($values as $kk=>$vv){
-				$sub_key = 'options_'.$k.'_'.$val_count.'_'.$kk.''; 
-				$key_merge = $sub_key;
-				$value_marge = $vv;
-				$options_select_merge[$key_merge] = $value_marge;
+
+	// OLD DEPRECATED
+
+		$options_objects = get_field_objects('options');
+		foreach($options_objects as $k=>$v){ 
+			$val_count = 0;
+			if(is_array($v['value'])){ 
+				$values = $v['value'][0];
 				
+				foreach($values as $kk=>$vv){
+					$sub_key = 'options_'.$k.'_'.$val_count.'_'.$kk.''; 
+					$key_merge = $sub_key;
+					$value_marge = $vv;
+					$options_select_merge[$key_merge] = $value_marge;
+					
+				} 
+			}else{
+				$key_merge = 'options_'.$k;
+				$value_marge = $v['value']; 			
+				$options_select_merge[$key_merge] = $value_marge;
 			} 
-		}else{
-			$key_merge = 'options_'.$k;
-			$value_marge = $v['value']; 			
-			$options_select_merge[$key_merge] = $value_marge;
-		} 
-			$val_count++;
-	}
-	// return $options_select_merge;
+				$val_count++;
+		}
+	
+		// return $options_select_merge;
+
+	// OLD DEPRECATED END
+
 	global $wpdb; 
-	$results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}options WHERE option_name like 'option_%'", OBJECT );
+	$results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}options WHERE option_name like '_option_%' OR option_name like 'option_%'", OBJECT );
+	if(!empty($results)){
+		foreach ($results as $key => $value) {
+			//echo $value->option_name.'-'.$value->option_value.'<br>';
+			$options_select_merge[$value->option_name] = $value->option_value;
+		}
+	}
+	return $options_select_merge;
+}
+
+function bc_get_all_custom_options($custom, $custom_if){
+	global $wpdb; 
+	$options_select_merge = array();
+	if($custom_if){
+		$results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}options WHERE option_name like '%".$custom."%'", OBJECT );
+	}else{
+		$results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}options WHERE option_name like '".$custom."_%'", OBJECT );
+	}
+
+	
 	if(!empty($results)){
 		foreach ($results as $key => $value) {
 			//echo $value->option_name.'-'.$value->option_value.'<br>';
@@ -169,9 +196,8 @@ add_action('bc_i_e_page_wrapper_aside','bc_i_e_page_wrapper_aside_fx');
 
 
 function bc_import_export_init() {
-	 
-	
-	add_menu_page(__("Import & Export Options","bc-ieo"), __("Import & Export Options","bc-ieo"), 'activate_plugins', 'bc-import-export-options', 'bc_import_export_options_page', plugins_url('exchange.png', __FILE__));
+	  
+	add_menu_page(__("I&E Options","bc-ieo"), __("I&E Options","bc-ieo"), 'activate_plugins', 'bc-import-export-options', 'bc_import_export_options_page', plugins_url('exchange.png', __FILE__));
 	
 	add_submenu_page('bc-import-export-options', __("Export Options","bc-ieo"), __("Export Options","bc-ieo"), 'activate_plugins', 'bc-export-options', 'bc_import_export_options_page_export');
 	add_submenu_page('bc-import-export-options', __("Import Options","bc-ieo"), __("Import Options","bc-ieo"), 'activate_plugins', 'bc-import-options', 'bc_import_export_options_page_import');
@@ -194,9 +220,37 @@ function bc_import_export_options_page(){
 			<h2><span><?php _e("Export","bc-ieo"); ?></span></h2>
 			<div class="inside">
 				<p><?php _e("You can choose to export all options, select by plugin (ex: only ACF options, only Woocommerce options), or select just the ones you need. A JSON file will be created with those options and their values.","bc-ieo"); ?></p>
-				<p><span class="dashicons dashicons-arrow-right"></span> <a href="<?php echo $ieo_urls['export']; ?>"><?php _e("Export ALL Options","bc-ieo"); ?></a></p>
-				<?php if(BCIEO_ACF) { ?><p><span class="dashicons dashicons-arrow-right"></span> <a href="<?php echo $ieo_urls['export-acf']; ?>"><?php _e("Export <b>ACF</b> Options Only","bc-ieo"); ?></a></p>
+				<p><?php _e("Choose one filter first, you will be redirected to a page lisiting all the options.","bc-ieo"); ?></p>
+				
+				<hr> 
+
+				<p><b><?php _e("Select ALL Options","bc-ieo"); ?><b></p>
+				<p><a class="button" href="<?php echo $ieo_urls['export']; ?>"><?php _e("Select ALL","bc-ieo"); ?></a></p>
+				
+				<hr>
+
+				<p><b><?php _e("Select <b>CUSTOM</b> Options Only","bc-ieo"); ?><b></p>
+
+
+				<form action="<?php echo admin_url('admin.php'); ?>">
+
+					<input type="hidden" name="page" value="bc-export-options"/>
+					
+					<p>
+					<select name="custom-if">
+						<option value="start">Starting with</option>
+						<option value="contain">Contain</option>
+					</select>
+					<input type="text" name="custom" value=""/>
+					<input type="submit" value="Go" class="button export-custom" />
+					</p>
+				</form>
+
+				<hr>
+
+				<?php if(BCIEO_ACF) { ?><p><b>ACF INSTALLED<b> <br><br><a class="button" href="<?php echo $ieo_urls['export-acf']; ?>"><?php _e("Select <b>ACF</b> Options Only","bc-ieo"); ?></a></p>
 				<?php } ?>
+			
 			</div>
 		</div>
 		
@@ -220,10 +274,16 @@ function bc_import_export_options_page_export(){
 	$use_selected_all = true;
 	$use_selected_acf = false;  
 	$use_selected_woo = false;
+	$use_selected_custom = false;
 	
 	if( isset($_GET['select']) == 'acf' && BCIEO_ACF ){
 		$use_selected_all = false;
 		$use_selected_acf = true;
+	}  
+
+	if( isset($_GET['custom']) ){
+		$use_selected_all = false;
+		$use_selected_custom = $_GET['custom'];
 	}  
 	
 	if (!isset($_POST['export'])) { 
@@ -264,6 +324,18 @@ function bc_import_export_options_page_export(){
 									<?php 
 								}
 								
+							}
+
+							if($use_selected_custom){
+								$custom_if = !empty($_GET['custom-if']) ? $_GET['custom-if'] : '';
+								$options = bc_get_all_custom_options($use_selected_custom, $custom_if);
+								foreach($options as $key => $value){
+									//$value = maybe_unserialize($value); 
+									?>
+									<tr><th scope="row"><label><input type="checkbox" name="_is_<?php echo $key; ?>" id="_is_<?php echo $key; ?>" checked="checked" /> <b><?php echo $key; ?></label></b></th> <td><input class="regular-text all-options" readonly type="text" name="_<?php echo $key; ?>" id="_<?php echo $key; ?>" value='<?php echo $value;?>'/></td></tr>
+									<?php 
+								}
+
 							}
 							
 						}
@@ -440,6 +512,11 @@ function bc_ieo_register_sub_pages_styles(){
 			width:70%;
 			height:auto;
 		}
+
+		#wpbody-content .optionspage-icon img{
+			width: 50px;
+			vertical-align: -16px;
+		}
 	
 		.table-hooks{
 			
@@ -475,6 +552,24 @@ function bc_ieo_register_sub_pages_scripts(){
 	?>
 	<script>
 		jQuery(document).ready(function(){
+
+
+			jQuery('select[name="export-custom-type"]').on('change',function(){
+				console.log(jQuery(this).val());
+			});
+
+			jQuery('input[name="export-custom"]').on('input',function(){  
+				jQuery('a.export-custom').attr('data-href', jQuery(this).val());
+				var orig = jQuery('a.export-custom').attr('original-href');
+				jQuery('a.export-custom').attr('href', orig + jQuery(this).val()); 
+			});
+
+			jQuery('input.export-custom').on('click',function(){
+				if(!jQuery('input[name="custom"]').val() ){
+					alert("<?php _e("Input for 'Custom' filter is empty, try again.","bc-ieo"); ?>");
+					return false;
+				}  
+			});
 			
 			function restoreToggleUnselected(){
 				if(jQuery('.toggle-selected').hasClass('selected')){
