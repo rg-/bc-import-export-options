@@ -2,26 +2,27 @@
 
 /*
  * Plugin Name: BC Import Export Options
- * Version: 1.0.1
+ * Version: 1.0.2
  * Plugin URI: http://rgdesign.org
  * Description: Export & Import options only for Wordpress, ACF, Woocommerce and so on compatible.
  * Author: Roberto Garc&iacute;a
  * Author URI: http://rgdesign.org
  * Requires at least: 4.7.2
- * Tested up to: 4.7.2
+ * Tested up to: 5.5
  *
  * Text Domain: bc-ieo
  * Domain Path: /language/
  *
  * @package WordPress
  * @author Roberto García
+ * @since 1.0.2 - prop("checked") true/false fixed on select/unselect all buttons
  * @since 1.0.1 - New wat to obtain all ACF option list
  * @since 1.0.0 - Created
  */
 
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-define('BCIEO_VERSION', '1.0.1' );
+define('BCIEO_VERSION', '1.0.2' );
 define('BCIEO_BASENAME', dirname( plugin_basename(__FILE__) ));
 
 add_action('plugins_loaded', 'acfgfs_load_textdomain'); 
@@ -580,12 +581,12 @@ function bc_ieo_register_sub_pages_scripts(){
 			}
 			
 			jQuery('.switch-checboxes-all').on('click',function(){
-				jQuery('.table-hooks input:checkbox').attr('checked','checked');
+				jQuery('.table-hooks input:checkbox').prop( "checked", true );
 				restoreToggleUnselected();
 				return false;
 			});
 			jQuery('.switch-checboxes-none').on('click',function(){
-				jQuery('.table-hooks input:checkbox').removeAttr('checked');
+				jQuery('.table-hooks input:checkbox').prop( "checked", false );
 				restoreToggleUnselected();
 				return false;
 			});
